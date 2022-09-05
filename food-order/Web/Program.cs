@@ -41,8 +41,6 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityRequirement(openApiSecurityRequirement);
 });
 
-
-
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"), migrations => migrations.MigrationsAssembly("Repository"));
@@ -88,10 +86,14 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 
 builder.Services.AddTransient<FoodRepository>();
 builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<ShoppingCartRepository>();
+builder.Services.AddTransient<OrderRepository>();
 
 builder.Services.AddScoped<FoodService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<ShoppingCartService>();
+builder.Services.AddScoped<OrderService>();
 
 var app = builder.Build();
 

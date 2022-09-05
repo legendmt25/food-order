@@ -2,6 +2,7 @@
 using Models;
 
 namespace Service;
+
 public class FoodService
 {
     private readonly FoodRepository foodRepository;

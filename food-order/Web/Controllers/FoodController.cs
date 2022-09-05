@@ -16,7 +16,6 @@ public class FoodController
         this.foodService = foodService;
     }
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet]
     public async Task<IEnumerable<Food>> foods()
     {

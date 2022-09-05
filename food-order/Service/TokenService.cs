@@ -39,18 +39,4 @@ public class TokenService
         SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
-
-    // public async Task<bool> validateToken(string token)
-    // {
-    //     JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-    //     TokenValidationParameters parameters = new TokenValidationParameters();
-    //     parameters.ValidateIssuerSigningKey = true;
-    //     parameters.IssuerSigningKey = KEY;
-    //     parameters.ValidateIssuer = true;
-    //     parameters.ValidateAudience = true;
-    //     parameters.ClockSkew = TimeSpan.Zero;
-
-    //     TokenValidationResult validationResult = await tokenHandler.ValidateTokenAsync(token, parameters);
-    //     return validationResult.IsValid;
-    // }
 }

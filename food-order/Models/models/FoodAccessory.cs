@@ -1,4 +1,5 @@
 namespace Models;
+
 public class FoodAccessory
 {
 
@@ -6,13 +7,10 @@ public class FoodAccessory
     public string name { get; set; }
     public decimal price { get; set; }
 
-    public FoodAccessory()
-    {
-    }
+    public FoodAccessory() { }
 
-    public FoodAccessory(int id, string name, decimal price)
+    public FoodAccessory(string name, decimal price)
     {
-        this.id = id;
         this.price = price;
         this.name = name;
     }

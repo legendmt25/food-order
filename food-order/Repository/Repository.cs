@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository;
+
 public class Repository<TEntity> where TEntity : class
 {
     protected readonly ApplicationContext context;

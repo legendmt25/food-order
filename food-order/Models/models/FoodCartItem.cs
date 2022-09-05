@@ -1,15 +1,14 @@
 namespace Models;
 
-public class OrderItem
+public class FoodCartItem
 {
+    public int? id { get; set; }
     public Food food { get; set; }
     public int quantity { get; set; }
 
-    public OrderItem()
-    {
-    }
+    public FoodCartItem() { }
 
-    public OrderItem(Food food, int quantity)
+    public FoodCartItem(Food food, int quantity)
     {
         this.food = food;
         this.quantity = quantity;

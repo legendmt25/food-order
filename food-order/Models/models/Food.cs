@@ -8,4 +8,10 @@ public class Food
     public virtual ICollection<FoodAccessory> accessories { get; set; }
 
     public Food() { }
+
+    public Food(FoodCategory category, ICollection<FoodAccessory> accessories)
+    {
+        this.category = category;
+        this.accessories = accessories;
+    }
 }
