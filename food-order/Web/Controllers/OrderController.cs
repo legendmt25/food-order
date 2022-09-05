@@ -8,7 +8,7 @@ namespace Web.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class OrderController
+public class OrderController : ControllerBase
 {
     private readonly OrderService orderService;
     public OrderController(OrderService orderService)
@@ -19,8 +19,11 @@ public class OrderController
     [HttpGet]
     public async Task makeOrder()
     {
-        // TODO: Get user from jwt token
-        await orderService.makeOrder("");
+        if (User.Identity == null)
+        {
+            throw new HttpRequestException("Identity cannot be null");
+        }
+        await orderService.makeOrder(User.Identity.Name);
     }
 
 }

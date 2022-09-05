@@ -8,7 +8,7 @@ namespace Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class FoodController
+public class FoodController : ControllerBase
 {
     private readonly FoodService foodService;
     public FoodController(FoodService foodService)

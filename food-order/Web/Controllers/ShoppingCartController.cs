@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Models;
 using Service;
 
@@ -9,7 +10,7 @@ namespace Web.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class ShoppingCartController
+public class ShoppingCartController : ControllerBase
 {
     private readonly ShoppingCartService shoppingCartService;
     public ShoppingCartController(ShoppingCartService shoppingCartService)
@@ -20,24 +21,33 @@ public class ShoppingCartController
     [HttpGet]
     public async Task<ShoppingCart> shoppingCart()
     {
-        // TODO: Get user from jwt token
-        return await shoppingCartService.findByUsername("");
+        if (User.Identity == null)
+        {
+            throw new HttpRequestException("Identity cannot be null");
+        }
+        return await shoppingCartService.findByUsername(User.Identity.Name);
     }
 
     [HttpPost]
     [Route("add-item")]
     public async Task addItem(FoodAddItemDto foodAddItemDto)
     {
-        // TODO: Get user from jwt token
-        await shoppingCartService.addItem("", foodAddItemDto);
+        if (User.Identity == null)
+        {
+            throw new HttpRequestException("Identity cannot be null");
+        }
+        await shoppingCartService.addItem(User.Identity.Name, foodAddItemDto);
     }
 
     [HttpGet]
     [Route("remove-item/{id}")]
     public async Task removeItem([FromRoute] int id)
     {
-        // TODO: Get user from jwt token
-        await shoppingCartService.removeItem("", id);
+        if (User.Identity == null)
+        {
+            throw new HttpRequestException("Identity cannot be null");
+        }
+        await shoppingCartService.removeItem(User.Identity.Name, id);
     }
 
 }
