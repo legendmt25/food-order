@@ -1,3 +1,13 @@
+using Service;
+using Repository;
+using Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +15,83 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Configuring Open API with jwt token security
+
+builder.Services.AddSwaggerGen(options =>
+{
+    OpenApiReference openApiReference = new OpenApiReference();
+    openApiReference.Id = JwtBearerDefaults.AuthenticationScheme;
+    openApiReference.Type = ReferenceType.SecurityScheme;
+
+    OpenApiSecurityScheme jwtSecurityScheme = new OpenApiSecurityScheme();
+    jwtSecurityScheme.BearerFormat = "Bearer";
+    jwtSecurityScheme.Name = "jwt";
+    jwtSecurityScheme.In = ParameterLocation.Header;
+    jwtSecurityScheme.Type = SecuritySchemeType.Http;
+    jwtSecurityScheme.Scheme = JwtBearerDefaults.AuthenticationScheme;
+    jwtSecurityScheme.Description = "Bearer: [jwt]";
+    jwtSecurityScheme.Reference = openApiReference;
+
+
+    OpenApiSecurityRequirement openApiSecurityRequirement = new OpenApiSecurityRequirement();
+    openApiSecurityRequirement.Add(jwtSecurityScheme, Array.Empty<string>());
+
+    options.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    options.AddSecurityRequirement(openApiSecurityRequirement);
+});
+
+
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"), migrations => migrations.MigrationsAssembly("Repository"));
+});
+
+// Configuring Asp.net core identity with Jwt
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    IConfigurationSection jwtConfig = builder.Configuration.GetSection("jwtConfig");
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtConfig.GetValue<string>("validIssuer"),
+        ValidAudience = jwtConfig.GetValue<string>("validAudience"),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.GetValue<string>("secretKey")))
+    };
+});
+
+builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
+{
+    options.User.RequireUniqueEmail = false;
+    options.Password.RequiredLength = 1;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<ApplicationContext>()
+.AddDefaultTokenProviders();
+
+// Dependency injection
+
+builder.Services.AddTransient<FoodRepository>();
+builder.Services.AddTransient<UserRepository>();
+
+builder.Services.AddScoped<FoodService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
