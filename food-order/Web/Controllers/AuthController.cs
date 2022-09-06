@@ -12,20 +12,32 @@ namespace Web.Controllers;
 public class AuthController
 {
     private readonly UserManager<AppUser> userManager;
+    private readonly RoleManager<IdentityRole<int>> roleManager;
     private readonly UserService userService;
     private readonly TokenService tokenService;
-    public AuthController(UserManager<AppUser> userManager, UserService userService, TokenService tokenService)
+    public AuthController(UserManager<AppUser> userManager, UserService userService, TokenService tokenService, RoleManager<IdentityRole<int>> roleManager)
     {
         this.userManager = userManager;
         this.userService = userService;
         this.tokenService = tokenService;
+        this.roleManager = roleManager;
     }
 
     [HttpPost]
     [Route("register")]
     public async Task register(RegisterDto input)
     {
-        await userManager.CreateAsync(new AppUser(input.firstName, input.lastName, input.email, input.username), input.password);
+        IdentityResult identityResult = await userManager.CreateAsync(new AppUser(input.firstName, input.lastName, input.email, input.username), input.password);
+        if (!identityResult.Succeeded)
+        {
+            throw new HttpRequestException("Could not register user");
+        }
+        AppUser user = await userManager.FindByNameAsync(input.firstName);
+        if (!await roleManager.RoleExistsAsync(UserRole.USER))
+        {
+            await roleManager.CreateAsync(new IdentityRole<int>(UserRole.USER));
+        }
+        await userManager.AddToRolesAsync(user, new string[] { UserRole.USER });
     }
 
     [HttpPost]

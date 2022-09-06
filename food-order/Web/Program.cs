@@ -112,6 +112,7 @@ builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ShoppingCartService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<MailService>();
+builder.Services.AddScoped<PaymentService>();
 
 var app = builder.Build();
 
