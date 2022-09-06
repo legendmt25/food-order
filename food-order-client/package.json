@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "generate-types": "npx ng-openapi-gen -i http://localhost:5000/swagger/v1/swagger.json -o ./generated"
   },
   "private": true,
   "dependencies": {

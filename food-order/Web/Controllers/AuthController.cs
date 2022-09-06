@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -6,6 +7,7 @@ using Service;
 namespace Web.Controllers;
 
 [ApiController]
+[EnableCors]
 [Route("[controller]")]
 public class AuthController
 {

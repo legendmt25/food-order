@@ -7,12 +7,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddCors(cors =>
+{
+    CorsPolicy corsPolicy = new CorsPolicyBuilder().AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().Build();
+    cors.AddDefaultPolicy(corsPolicy);
+}
+);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -20,6 +28,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
+    OpenApiServer server = new OpenApiServer();
+    server.Url = "http://localhost:5000";
+
+    options.AddServer(server);
     OpenApiReference openApiReference = new OpenApiReference();
     openApiReference.Id = JwtBearerDefaults.AuthenticationScheme;
     openApiReference.Type = ReferenceType.SecurityScheme;
@@ -105,6 +117,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

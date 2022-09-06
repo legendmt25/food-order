@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Service;
@@ -7,6 +6,7 @@ using Service;
 namespace Web.Controllers;
 
 [ApiController]
+[EnableCors]
 [Route("api/[controller]")]
 public class FoodController : ControllerBase
 {
