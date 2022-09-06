@@ -3,10 +3,11 @@ import { Food } from 'generated/models';
 import { FoodService } from 'generated/services';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './app-component-overview.html',
+  selector: 'food-overview',
+  templateUrl: './food-overview.html',
+  styleUrls: ['./food-overview.css'],
 })
-export class ComponentOverviewComponent implements OnInit {
+export class FoodOverviewComponent implements OnInit {
   foods: Food[] = [];
   constructor(private foodService: FoodService) {}
 

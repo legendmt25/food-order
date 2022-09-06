@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -21,28 +22,16 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FoodCartItem",
+                name: "foods",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    foodid = table.Column<int>(type: "INTEGER", nullable: true),
-                    quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    FoodCartEntryid = table.Column<int>(type: "INTEGER", nullable: true)
+                    category = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodCartItem", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_FoodCartItem_FoodCartEntry_FoodCartEntryid",
-                        column: x => x.FoodCartEntryid,
-                        principalTable: "FoodCartEntry",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_FoodCartItem_foods_foodid",
-                        column: x => x.foodid,
-                        principalTable: "foods",
-                        principalColumn: "id");
+                    table.PrimaryKey("PK_foods", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,6 +82,56 @@ namespace Repository.Migrations
                         principalColumn: "id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FoodAccessory",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    name = table.Column<string>(type: "TEXT", nullable: true),
+                    price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Foodid = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodAccessory", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_FoodAccessory_foods_Foodid",
+                        column: x => x.Foodid,
+                        principalTable: "foods",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodCartItem",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    foodid = table.Column<int>(type: "INTEGER", nullable: true),
+                    quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    FoodCartEntryid = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodCartItem", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_FoodCartItem_FoodCartEntry_FoodCartEntryid",
+                        column: x => x.FoodCartEntryid,
+                        principalTable: "FoodCartEntry",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_FoodCartItem_foods_foodid",
+                        column: x => x.foodid,
+                        principalTable: "foods",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodAccessory_Foodid",
+                table: "FoodAccessory",
+                column: "Foodid");
+
             migrationBuilder.CreateIndex(
                 name: "IX_FoodCartItem_FoodCartEntryid",
                 table: "FoodCartItem",
@@ -127,6 +166,9 @@ namespace Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "FoodAccessory");
+
+            migrationBuilder.DropTable(
                 name: "FoodCartItem");
 
             migrationBuilder.DropTable(
@@ -134,6 +176,9 @@ namespace Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "shoppingCarts");
+
+            migrationBuilder.DropTable(
+                name: "foods");
 
             migrationBuilder.DropTable(
                 name: "FoodCartEntry");

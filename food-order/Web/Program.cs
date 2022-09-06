@@ -8,12 +8,15 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddCors(cors =>
 {
@@ -55,7 +58,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"), migrations => migrations.MigrationsAssembly("Repository"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"));
 });
 
 // Configuring Asp.net core identity with Jwt
@@ -108,6 +111,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ShoppingCartService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<MailService>();
 
 var app = builder.Build();
 

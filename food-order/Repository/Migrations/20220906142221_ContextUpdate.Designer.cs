@@ -11,7 +11,7 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220905220639_ContextUpdate")]
+    [Migration("20220906142221_ContextUpdate")]
     partial class ContextUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

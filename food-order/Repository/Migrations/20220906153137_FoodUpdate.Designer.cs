@@ -11,8 +11,8 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220905214210_ShoppingCart_Order")]
-    partial class ShoppingCart_Order
+    [Migration("20220906153137_FoodUpdate")]
+    partial class FoodUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,6 +225,9 @@ namespace Repository.Migrations
                     b.Property<int>("category")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("price")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("id");
 
                     b.ToTable("foods");
@@ -250,6 +253,83 @@ namespace Repository.Migrations
                     b.HasIndex("Foodid");
 
                     b.ToTable("FoodAccessory");
+                });
+
+            modelBuilder.Entity("Models.FoodCartEntry", b =>
+                {
+                    b.Property<int?>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.ToTable("FoodCartEntry");
+                });
+
+            modelBuilder.Entity("Models.FoodCartItem", b =>
+                {
+                    b.Property<int?>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FoodCartEntryid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("foodid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("FoodCartEntryid");
+
+                    b.HasIndex("foodid");
+
+                    b.ToTable("FoodCartItem");
+                });
+
+            modelBuilder.Entity("Models.Order", b =>
+                {
+                    b.Property<int?>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("foodOrderEntryid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("userId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("foodOrderEntryid");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("orders");
+                });
+
+            modelBuilder.Entity("Models.ShoppingCart", b =>
+                {
+                    b.Property<int?>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("foodCartEntryid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("userId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("foodCartEntryid");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("shoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -310,9 +390,57 @@ namespace Repository.Migrations
                         .HasForeignKey("Foodid");
                 });
 
+            modelBuilder.Entity("Models.FoodCartItem", b =>
+                {
+                    b.HasOne("Models.FoodCartEntry", null)
+                        .WithMany("items")
+                        .HasForeignKey("FoodCartEntryid");
+
+                    b.HasOne("Models.Food", "food")
+                        .WithMany()
+                        .HasForeignKey("foodid");
+
+                    b.Navigation("food");
+                });
+
+            modelBuilder.Entity("Models.Order", b =>
+                {
+                    b.HasOne("Models.FoodCartEntry", "foodOrderEntry")
+                        .WithMany()
+                        .HasForeignKey("foodOrderEntryid");
+
+                    b.HasOne("Models.AppUser", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+
+                    b.Navigation("foodOrderEntry");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Models.ShoppingCart", b =>
+                {
+                    b.HasOne("Models.FoodCartEntry", "foodCartEntry")
+                        .WithMany()
+                        .HasForeignKey("foodCartEntryid");
+
+                    b.HasOne("Models.AppUser", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+
+                    b.Navigation("foodCartEntry");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("Models.Food", b =>
                 {
                     b.Navigation("accessories");
+                });
+
+            modelBuilder.Entity("Models.FoodCartEntry", b =>
+                {
+                    b.Navigation("items");
                 });
 #pragma warning restore 612, 618
         }

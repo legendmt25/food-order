@@ -223,6 +223,9 @@ namespace Repository.Migrations
                     b.Property<int>("category")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("price")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("id");
 
                     b.ToTable("foods");
