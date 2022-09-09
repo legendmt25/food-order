@@ -13,9 +13,11 @@ import { LoginComponent } from 'src/components/login/login';
 import { RegisterComponent } from 'src/components/register/register';
 import { FoodListComponent } from 'src/components/food/food-list';
 import { ApiInterceptor } from 'interceptors/api.interceptor';
-import { ShoppingCartOverviewComponent } from 'src/components/shopping-cart/shopping-cart-overview';
+import { ShoppingCartModalComponent } from 'src/components/shopping-cart/shopping-cart-modal';
 import { OrderOverviewComponent } from 'src/components/order/order-overview';
 import { OrderListComponent } from 'src/components/order/order-list';
+import { SpinnerComponent } from 'src/components/spinner/spinner';
+import { MakeOrderComponent } from 'src/components/order/make-order';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -32,9 +34,11 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    ShoppingCartOverviewComponent,
+    ShoppingCartModalComponent,
     OrderOverviewComponent,
     OrderListComponent,
+    SpinnerComponent,
+    MakeOrderComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,10 +14,12 @@ public class OrderController : ControllerBase
 {
     private readonly OrderService orderService;
     private readonly PaymentService paymentService;
-    public OrderController(OrderService orderService, PaymentService paymentService)
+    private readonly ShoppingCartService shoppingCartService;
+    public OrderController(OrderService orderService, PaymentService paymentService, ShoppingCartService shoppingCartService)
     {
         this.orderService = orderService;
         this.paymentService = paymentService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     [HttpGet]
@@ -39,8 +41,10 @@ public class OrderController : ControllerBase
         {
             throw new HttpRequestException("Identity cannot be null");
         }
-        bool paymentResult = await paymentService.makePayment(transaction);
-        if (paymentResult)
+        decimal amount = await this.shoppingCartService.getTotalPriceByUsername(User.Identity.Name);
+        Console.WriteLine(amount);
+        bool paymentResult = await paymentService.makePayment(transaction, amount);
+        if (!paymentResult)
         {
             throw new HttpRequestException("Payment unsuccessfull");
         }

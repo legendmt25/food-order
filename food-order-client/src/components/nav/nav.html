@@ -26,7 +26,7 @@
       class="flex-col shadow items-center gap-3 z-50 group-hover:shadow-lg group-hover:border-zinc-400 hidden rounded-xl group-hover:flex p-4 border"
     >
       <a routerLink="/my-orders" [class]="linkClass" class="border-b">My orders</a>
-      <a routerLink="/cart" [class]="linkClass" class="border-b">Cart</a>
+      <button (click)="handleToggleCartModal()" [class]="linkClass" class="border-b">Cart</button>
       <a routerLink="/settings" [class]="linkClass" class="border-b"
         >Settings</a
       >

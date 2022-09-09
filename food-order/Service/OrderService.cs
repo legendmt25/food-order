@@ -20,6 +20,23 @@ public class OrderService
         this.mailService = mailService;
     }
 
+    private  decimal totalPrice(Order order)
+    {
+        return order.foodOrderEntry.items.Sum(item =>
+        {
+            int sizePriceFactor = 1;
+            if (item.size == FoodSize.MIDDLE)
+            {
+                sizePriceFactor = 2;
+            }
+            else if (item.size == FoodSize.BIG)
+            {
+                sizePriceFactor = 3;
+            }
+            return sizePriceFactor * item.quantity * (item.accessories.Sum(accessory => accessory.price) + item.food.price);
+        });
+    }
+
     private string generateHtml(Order order)
     {
         StringBuilder html = new StringBuilder()
@@ -39,28 +56,39 @@ public class OrderService
 
         foreach (var item in order.foodOrderEntry.items)
         {
+            int sizePriceFactor = 1;
+            if (item.size == FoodSize.MIDDLE)
+            {
+                sizePriceFactor = 2;
+            }
+            else if (item.size == FoodSize.MIDDLE)
+            {
+                sizePriceFactor = 3;
+            }
+
             html.Append($"<tr>")
                 .Append($"<td>{item.food.id}</td>")
                 .Append($"<td>${item.food.category}</td>")
                 .Append($"<td>{item.quantity}</td>")
-                .Append($"<td>{item.quantity * item.food.price}</td>")
+                .Append($"<td>{sizePriceFactor * item.quantity * (item.food.price + item.accessories.Sum(accessory => accessory.price))}</td>")
                 .Append($"</tr>");
         }
 
         html.Append($"</tbody>")
-            .Append($"<tfoot>")
-            .Append($"<tr>")
-            .Append($"<td colspan=\"3\">TotalPrice</td>")
-            .Append($"<td>{order.foodOrderEntry.items.Sum(item => item.quantity * item.food.price)}</td>")
-            .Append($"</tr>")
-            .Append($"</tfoot>")
-            .Append($"</table>")
-            .Append($"<p>Your order will be sent within 40 minutes, Thank you for trusting us</p>")
-            .Append($"</div>");
+                .Append($"<tfoot>")
+                .Append($"<tr>")
+                .Append($"<td colspan=\"3\">TotalPrice</td>")
+                .Append($"<td>{this.totalPrice(order)}</td>")
+                .Append($"</tr>")
+                .Append($"</tfoot>")
+                .Append($"</table>")
+                .Append($"<p>Your order will be sent within 40 minutes, Thank you for trusting us</p>")
+                .Append($"</div>");
         return html.ToString();
     }
 
-    public async Task<ICollection<Order>> findByUsername(string username) {
+    public async Task<ICollection<Order>> findByUsername(string username)
+    {
         return await orderRepository.findByUsername(username);
     }
 

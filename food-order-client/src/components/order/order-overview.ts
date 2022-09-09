@@ -8,6 +8,7 @@ import { OrderService } from 'services';
 })
 export class OrderOverviewComponent implements OnInit {
   orders: Order[] = [];
+  isLoading: boolean = false;
 
   constructor(private orderService: OrderService) {}
 
@@ -16,13 +17,19 @@ export class OrderOverviewComponent implements OnInit {
   }
 
   getOrders() {
-    this.orderService.getOrders$Json().subscribe({
-      next: (response) => {
-        this.orders = response;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.isLoading = true;
+    this.orderService
+      .getOrders$Json()
+      .subscribe({
+        next: (response) => {
+          this.orders = response;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      })
+      .add(() => {
+        this.isLoading = false;
+      });
   }
 }

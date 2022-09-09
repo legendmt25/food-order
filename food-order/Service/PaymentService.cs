@@ -22,13 +22,13 @@ public class PaymentService
         return await gateway.ClientToken.GenerateAsync();
     }
 
-    public async Task<bool> makePayment(TransactionDto transaction) {
+    public async Task<bool> makePayment(TransactionDto transaction, decimal amount) {
 
         TransactionOptionsRequest options = new TransactionOptionsRequest();
         options.SubmitForSettlement = true;
 
         TransactionRequest request = new TransactionRequest();
-        request.Amount = transaction.amount;
+        request.Amount = amount;
         request.PaymentMethodNonce = transaction.nonce;
         request.Options = options;
 

@@ -1,1 +1,4 @@
-<order-list [items]="orders"></order-list>
+<spinner *ngIf="isLoading"></spinner>
+<div *ngIf="!isLoading">
+  <order-list [items]="orders"></order-list>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Food, FoodAccessory, FoodCartItem } from 'generated/models';
+import { Food, FoodAccessory } from 'generated/models';
 import { FoodSize } from 'generated/models/food-size';
 import { FoodService, ShoppingCartService } from 'services';
 
@@ -10,6 +10,7 @@ import { FoodService, ShoppingCartService } from 'services';
   templateUrl: './food-page.html',
 })
 export class FoodPageComponent implements OnInit {
+  isLoading: boolean = false;
   food: Food = {};
   sizes: FoodSize[] = Object.values(FoodSize);
   form: FormGroup = this.formBuilder.group({
@@ -45,7 +46,9 @@ export class FoodPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = Number(params['id']);
+      this.isLoading = true;
       this.getFoodEntry(id).add(() => {
+        this.isLoading = false;
         this.form.patchValue({ ...this.form.value, food: this.food, id });
       });
     });
@@ -67,7 +70,6 @@ export class FoodPageComponent implements OnInit {
           console.log(error);
         },
       });
-    console.log(this.form.value);
   }
 
   handleAccessoriesChange(event: Event) {
@@ -89,8 +91,12 @@ export class FoodPageComponent implements OnInit {
 
   getFoodEntry(id: number) {
     return this.foodService.getFoodEntry$Json({ id }).subscribe({
-      next: (response) => (this.food = response),
-      error: (error) => console.log(error),
+      next: (response) => {
+        this.food = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 }

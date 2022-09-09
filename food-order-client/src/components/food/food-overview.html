@@ -1,4 +1,5 @@
-<div>
+<spinner *ngIf="isLoading"></spinner>
+<div *ngIf="!isLoading">
   <input
     id="search"
     type="search"

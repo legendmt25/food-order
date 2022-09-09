@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Food, FoodCategory } from 'generated/models';
 import { FoodService } from 'services';
@@ -10,14 +10,16 @@ import { FoodService } from 'services';
 export class FoodOverviewComponent {
   foods: Food[] = [];
   filteredFoods: Food[] = [];
+  isLoading: boolean = false;
+
   constructor(private foodService: FoodService, route: ActivatedRoute) {
-    const sub = route.params.subscribe({
+    route.params.subscribe({
       next: (params) => {
+        this.isLoading = true;
         const type = params['type'];
         this.getFoodEntries(type);
       },
     });
-    sub.add(() => sub.unsubscribe());
   }
 
   handleSearchChange(event: Event) {
@@ -29,7 +31,7 @@ export class FoodOverviewComponent {
   }
 
   getFoodEntries(type: string) {
-    const sub = this.foodService
+    return this.foodService
       .filterByCategory(type.toUpperCase() as FoodCategory)
       .subscribe({
         next: (response) => {
@@ -39,7 +41,9 @@ export class FoodOverviewComponent {
         error: (error) => {
           console.log(error);
         },
+      })
+      .add(() => {
+        this.isLoading = false;
       });
-    sub.add(() => sub.unsubscribe());
   }
 }

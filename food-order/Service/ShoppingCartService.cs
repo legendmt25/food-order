@@ -30,6 +30,24 @@ public class ShoppingCartService
         return await shoppingCartRepository.findByUsername(username);
     }
 
+    public async Task<decimal> getTotalPriceByUsername(string username)
+    {
+        ShoppingCart cart = await this.findByUsername(username);
+        return cart.foodCartEntry.items.Sum(item =>
+        {
+            int sizePriceFactor = 1;
+            if (item.size == FoodSize.MIDDLE)
+            {
+                sizePriceFactor = 2;
+            }
+            else if (item.size == FoodSize.BIG)
+            {
+                sizePriceFactor = 3;
+            }
+            return sizePriceFactor * item.quantity * (item.accessories.Sum(accessory => accessory.price) + item.food.price);
+        });
+    }
+
     public async Task addItem(string username, FoodAddItemDto foodAddItemDto)
     {
         ShoppingCart cart = await findByUsername(username);

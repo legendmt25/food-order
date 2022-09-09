@@ -4,9 +4,10 @@ import { ErrorComponent } from 'src/components/error/error';
 import { FoodOverviewComponent } from 'src/components/food/food-overview';
 import { FoodPageComponent } from 'src/components/food/food-page';
 import { LoginComponent } from 'src/components/login/login';
+import { MakeOrderComponent } from 'src/components/order/make-order';
 import { OrderOverviewComponent } from 'src/components/order/order-overview';
 import { RegisterComponent } from 'src/components/register/register';
-import { ShoppingCartOverviewComponent } from 'src/components/shopping-cart/shopping-cart-overview';
+import { ShoppingCartModalComponent } from 'src/components/shopping-cart/shopping-cart-modal';
 
 const routes: Routes = [
   {
@@ -26,12 +27,16 @@ const routes: Routes = [
     path: 'register',
   },
   {
-    component: ShoppingCartOverviewComponent,
+    component: ShoppingCartModalComponent,
     path: 'cart',
   },
   {
     component: OrderOverviewComponent,
     path: 'my-orders',
+  },
+  {
+    component: MakeOrderComponent,
+    path: 'make-order',
   },
   {
     component: ErrorComponent,

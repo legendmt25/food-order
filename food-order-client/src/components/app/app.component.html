@@ -1,5 +1,11 @@
+<shopping-cart-modal [show]="showCartModal" (onToggle)="handleToggleCartModal()"></shopping-cart-modal>
 <div class="h-full flex flex-col gap-3">
-  <navbar [isAuthenticated]="!!(authService.jwtObservable | async)" (onLogout)="handleLogout()"></navbar>
+  <navbar
+    [isAuthenticated]="!!(authService.jwtObservable | async)"
+    (onLogout)="handleLogout()"
+    [showCartModal]="showCartModal"
+    (onToggleCartModal)="handleToggleCartModal()"
+  ></navbar>
   <div class="mx-auto w-3/4 flex-grow">
     <router-outlet></router-outlet>
   </div>
