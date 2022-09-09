@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace Models;
 
+[ModelBinder(BinderType = typeof(ModelBinder))]
 public class FoodAccessory
 {
 

@@ -1,0 +1,14 @@
+<div class="flex flex-row flex-wrap gap-5 justify-evenly after:flex-auto">
+  <a
+    [routerLink]="['/food-detail/' + item.id]"
+    class="p-3 shadow-sm border-slate-50 hover:shadow hover:scale-110"
+    *ngFor="let item of items"
+  >
+    <img
+      class="md:w-80 sm:w-full"
+      [src]="'data:' + item.image?.contentType + ';base64,' + item.image?.data"
+      alt="image"
+    />
+    {{item.name}}
+  </a>
+</div>

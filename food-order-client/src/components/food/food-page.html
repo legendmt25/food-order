@@ -1,0 +1,59 @@
+<h2 class="text-xl">{{food.name}}</h2>
+<span class="text-sm text-gray-400">{{food.category}}</span>
+<div class="flex flex-col md:flex-row gap-5">
+  <img
+    class="w-full"
+    [src]="'data:' + food.image?.contentType + ';base64,' + food.image?.data"
+    alt="image"
+  />
+  <form
+    class="w-full flex flex-col gap-2"
+    [formGroup]="form"
+    (ngSubmit)="handleSubmit()"
+  >
+    <div class="text-xl font-bold">{{price}}$</div>
+    <div class="w-fit" *ngFor="let accessory of food.accessories">
+      <input
+        type="checkbox"
+        name="accessories"
+        [value]="accessory.id"
+        (change)="handleAccessoriesChange($event)"
+      />
+      <label class="ml-2" for="{{accessory.id}}">
+        {{accessory.name}} ( {{accessory.price}}$ )
+      </label>
+    </div>
+    <div>
+      <div class="pl-3">
+        <div class="-ml-3">Size:</div>
+        <div *ngFor="let size of sizes">
+          <input
+            formControlName="size"
+            type="radio"
+            [id]="size"
+            name="size"
+            [value]="size"
+          />
+          <label class="ml-2" [for]="size">{{size}}</label>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="flex flex-col gap-1">
+        <label for="quantity">Quantity</label>
+        <input
+          min="1"
+          type="number"
+          formControlName="quantity"
+          class="p-1 outline-none border rounded shadow-sm focus:shadow hover:border-zinc-300 focus:border-zinc-300"
+        />
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="w-fit p-2 px-5 border rounded shadow-sm active:shadow focus:shadow hover:border-zinc-300 focus:border-zinc-300"
+    >
+      Save
+    </button>
+  </form>
+</div>

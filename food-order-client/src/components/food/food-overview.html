@@ -1,3 +1,10 @@
-<div class="container">
-  <div *ngFor="let food of foods">{{food.id}}:{{food.category}}</div>
+<div>
+  <input
+    id="search"
+    type="search"
+    placeholder="Search"
+    (keyup)="handleSearchChange($event)"
+    class="border rounded outline-none focus:border-zinc-300 p-1 px-2"
+  />
+  <food-list [items]="filteredFoods"></food-list>
 </div>

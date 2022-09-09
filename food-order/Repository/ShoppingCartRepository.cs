@@ -10,17 +10,32 @@ public class ShoppingCartRepository : Repository<ShoppingCart>
 
     public async Task<ICollection<ShoppingCart>> findAll()
     {
-        return await entries.Include("user").Include("foodCartEntry").Include("foodCartEntry.items").ToListAsync();
+        return await entries.Include("user")
+        .Include("foodCartEntry")
+        .Include("foodCartEntry.items")
+        .Include("foodCartEntry.items.food")
+        .Include("foodCartEntry.items.food.image")
+        .ToListAsync();
     }
 
     public async Task<ShoppingCart> findById(int id)
     {
-        return await entries.Include("user").Include("foodCartEntry").Include("foodCartEntry.items").FirstOrDefaultAsync(entry => entry.id.Equals(id));
+        return await entries.Include("user")
+            .Include("foodCartEntry")
+            .Include("foodCartEntry.items")
+            .Include("foodCartEntry.items.food")
+            .Include("foodCartEntry.items.food.image")
+            .FirstOrDefaultAsync(entry => entry.id.Equals(id));
     }
 
     public async Task<ShoppingCart> findByUsername(string username)
     {
-        return await entries.Include("user").Include("foodCartEntry").Include("foodCartEntry.items").FirstOrDefaultAsync(entry => entry.user.UserName.Equals(username));
+        return await entries.Include("user")
+            .Include("foodCartEntry")
+            .Include("foodCartEntry.items")
+            .Include("foodCartEntry.items.food")
+            .Include("foodCartEntry.items.food.image")
+            .FirstOrDefaultAsync(entry => entry.user.UserName.Equals(username));
     }
 
     public async Task<ShoppingCart> save(ShoppingCart cart)

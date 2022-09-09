@@ -29,9 +29,14 @@ public class FoodController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<Food> save(Food food)
+    public async Task<Food> save([FromForm] FoodDto food)
     {
-        return await foodService.save(food);
+        Console.WriteLine(food.accessories.Count);
+        MemoryStream stream = new MemoryStream();
+        await food.image.CopyToAsync(stream);
+        ImageData image = new ImageData(stream.ToArray(), food.image.ContentType);
+        Food saved = new Food(food.name, food.description, food.category, food.accessories, food.price, image);
+        return await foodService.save(saved);
     }
 
     [HttpPut("{id}")]

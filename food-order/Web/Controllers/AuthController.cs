@@ -32,12 +32,12 @@ public class AuthController
         {
             throw new HttpRequestException("Could not register user");
         }
-        AppUser user = await userManager.FindByNameAsync(input.firstName);
+        AppUser user = await userManager.FindByNameAsync(input.username);
         if (!await roleManager.RoleExistsAsync(UserRole.USER))
         {
             await roleManager.CreateAsync(new IdentityRole<int>(UserRole.USER));
         }
-        await userManager.AddToRolesAsync(user, new string[] { UserRole.USER });
+        await userManager.AddToRoleAsync(user, UserRole.USER);
     }
 
     [HttpPost]

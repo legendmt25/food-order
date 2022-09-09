@@ -36,11 +36,10 @@ public class ShoppingCartService
         if (cart == null)
         {
             AppUser user = await userService.findByUsername(username);
-            cart = new ShoppingCart(new FoodCartEntry(new List<FoodCartItem>()), user);
+            cart = new ShoppingCart(new FoodCartEntry(), user);
         }
         Food food = await this.foodService.findById(foodAddItemDto.foodId);
-
-        cart.foodCartEntry.items.Add(new FoodCartItem(food, foodAddItemDto.quantity));
+        cart.foodCartEntry.items.Add(new FoodCartItem(food, foodAddItemDto.quantity, foodAddItemDto.size));
         await shoppingCartRepository.save(cart);
     }
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -10,9 +11,10 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220908202156_UpdatedFood")]
+    partial class UpdatedFood
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
@@ -223,9 +225,6 @@ namespace Repository.Migrations
                     b.Property<int>("category")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("description")
-                        .HasColumnType("TEXT");
-
                     b.Property<int?>("imageid")
                         .HasColumnType("INTEGER");
 
@@ -288,9 +287,6 @@ namespace Repository.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("size")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");

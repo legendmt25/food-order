@@ -10,12 +10,12 @@ public class FoodRepository : Repository<Food>
 
     public async Task<ICollection<Food>> findAll()
     {
-        return await entries.Include("accessories").ToListAsync();
+        return await entries.Include("image").Include("accessories").ToListAsync();
     }
 
     public async Task<Food> findById(int id)
     {
-        return await entries.Include("accessories").FirstOrDefaultAsync(entry => entry.id.Equals(id));
+        return await entries.Include("image").Include("accessories").FirstOrDefaultAsync(entry => entry.id.Equals(id));
     }
 
     public async Task<Food> save(Food food)

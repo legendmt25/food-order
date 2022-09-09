@@ -26,7 +26,7 @@ public class TokenService
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
         ICollection<Claim> claims = new List<Claim> {
-            new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+            new Claim(ClaimTypes.Name, user.UserName)
         };
         SigningCredentials credentials = new SigningCredentials(KEY, SecurityAlgorithms.HmacSha512Signature);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor();
