@@ -9,7 +9,7 @@ namespace Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{UserRole.USER},{UserRole.ADMIN}")]
 public class ShoppingCartController : ControllerBase
 {
     private readonly ShoppingCartService shoppingCartService;

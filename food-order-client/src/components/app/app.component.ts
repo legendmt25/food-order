@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'services';
+import { AuthService, ShoppingCartService } from 'services';
 
 @Component({
   selector: 'app-root',
@@ -7,16 +7,20 @@ import { AuthService } from 'services';
 })
 export class AppComponent implements OnInit {
   showCartModal: boolean = false;
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    public shoppingCartService: ShoppingCartService
+  ) {}
 
   ngOnInit(): void {
     this.authService.init();
+    this.shoppingCartService.init();
   }
 
   handleToggleCartModal(): void {
     this.showCartModal = !this.showCartModal;
   }
-  
+
   handleLogout(): void {
     this.authService.logout();
   }

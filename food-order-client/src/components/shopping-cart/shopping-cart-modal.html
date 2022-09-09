@@ -27,7 +27,7 @@
       <div class="relative p-6 flex-auto">
         <div
           class="flex justify-evenly items-center gap-20"
-          *ngFor="let item of cart.foodCartEntry?.items"
+          *ngFor="let item of (shoppingCartService.cart | async)?.foodCartEntry?.items"
         >
           <div>Name: {{item.food?.name}}</div>
           <div>Quantity: {{item.quantity}}</div>

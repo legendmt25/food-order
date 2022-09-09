@@ -21,13 +21,12 @@ public class TokenService
         this.AUDIENCE = jwtConfig.GetSection("validAudience").Value;
     }
 
-    public string createToken(AppUser user)
+    public string createToken(AppUser user, ICollection<string> roles)
     {
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-
-        ICollection<Claim> claims = new List<Claim> {
-            new Claim(ClaimTypes.Name, user.UserName)
-        };
+        
+        IEnumerable<Claim> claims = roles.Select(role => new Claim(ClaimTypes.Role, role)).Append(new Claim(ClaimTypes.Name, user.UserName));
+        
         SigningCredentials credentials = new SigningCredentials(KEY, SecurityAlgorithms.HmacSha512Signature);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor();
         tokenDescriptor.Issuer = ISSUER;

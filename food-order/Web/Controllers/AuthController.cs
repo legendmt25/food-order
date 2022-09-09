@@ -52,6 +52,7 @@ public class AuthController
         {
             throw new HttpRequestException("Invalid username and password");
         }
-        return tokenService.createToken(user);
+        ICollection<string> roles = await this.userManager.GetRolesAsync(user);
+        return tokenService.createToken(user, roles);
     }
 }

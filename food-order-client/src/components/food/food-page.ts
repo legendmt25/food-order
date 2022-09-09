@@ -56,16 +56,13 @@ export class FoodPageComponent implements OnInit {
 
   handleSubmit() {
     this.shoppingCartService
-      .addItem({
-        body: {
-          size: this.form.value.size,
-          foodId: this.form.value.id,
-          quantity: this.form.value.quantity,
-          accessories: this.form.value.accessories as FoodAccessory[],
-        },
+      .addFoodItem({
+        size: this.form.value.size,
+        foodId: this.form.value.id,
+        quantity: this.form.value.quantity,
+        accessories: this.form.value.accessories as FoodAccessory[],
       })
       .subscribe({
-        next: () => {},
         error: (error) => {
           console.log(error);
         },
