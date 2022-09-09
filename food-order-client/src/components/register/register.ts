@@ -25,7 +25,7 @@ export class RegisterComponent {
       alert('Passwords are not the same!');
       return;
     }
-    this.authService.register(this.registerData).subscribe({
+    this.authService.register({ body: this.registerData }).subscribe({
       next: () => {
         console.log('Registered');
         this.router.navigate(['/login']);

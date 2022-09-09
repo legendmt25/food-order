@@ -1,19 +1,21 @@
 import { forwardRef, NgModule, Provider } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from 'modules/app-routing.module';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FoodOverviewComponent } from '../food/food-overview';
+import { AppComponent } from 'src/components//app/app.component';
+import { FoodOverviewComponent } from 'src/components/food/food-overview';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiModule } from 'generated/api.module';
-import { FoodPageComponent } from '../food/food-page';
-import { NavbarComponent } from '../nav/nav';
-import { LoginComponent } from '../login/login';
-import { RegisterComponent } from '../register/register';
-import { FoodListComponent } from '../food/food-list';
+import { FoodPageComponent } from 'src/components/food/food-page';
+import { NavbarComponent } from 'src/components/nav/nav';
+import { LoginComponent } from 'src/components/login/login';
+import { RegisterComponent } from 'src/components/register/register';
+import { FoodListComponent } from 'src/components/food/food-list';
 import { ApiInterceptor } from 'interceptors/api.interceptor';
-import { ShoppingCartOverviewComponent } from '../shopping-cart/shopping-cart-overview';
+import { ShoppingCartOverviewComponent } from 'src/components/shopping-cart/shopping-cart-overview';
+import { OrderOverviewComponent } from 'src/components/order/order-overview';
+import { OrderListComponent } from 'src/components/order/order-list';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -25,12 +27,14 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
   declarations: [
     AppComponent,
     FoodOverviewComponent,
+    FoodListComponent,
     FoodPageComponent,
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    FoodListComponent,
     ShoppingCartOverviewComponent,
+    OrderOverviewComponent,
+    OrderListComponent,
   ],
   imports: [
     BrowserModule,

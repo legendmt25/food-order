@@ -39,7 +39,7 @@ public class ShoppingCartService
             cart = new ShoppingCart(new FoodCartEntry(), user);
         }
         Food food = await this.foodService.findById(foodAddItemDto.foodId);
-        cart.foodCartEntry.items.Add(new FoodCartItem(food, foodAddItemDto.quantity, foodAddItemDto.size));
+        cart.foodCartEntry.items.Add(new FoodCartItem(food, foodAddItemDto.quantity, foodAddItemDto.size, foodAddItemDto.accessories));
         await shoppingCartRepository.save(cart);
     }
 

@@ -12,6 +12,15 @@ public class OrderRepository : Repository<Order>
         return await entries.Include("user").Include("foodOrderEntry").Include("foodOrderEntry.items").ToListAsync();
     }
 
+    public async Task<ICollection<Order>> findByUsername(string username)
+    {
+        return await entries.Include("user")
+            .Include("foodOrderEntry")
+            .Include("foodOrderEntry.items")
+            .Where((order) => order.user.UserName.Equals(username))
+            .ToListAsync();
+    }
+
     public async Task<Order> findById(int id)
     {
         return await entries.Include("user").Include("foodOrderEntry").Include("foodOrderEntry.items").FirstOrDefaultAsync(entry => entry.id.Equals(id));

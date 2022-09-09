@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Service;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Web.Controllers;
 
@@ -25,6 +26,7 @@ public class AuthController
 
     [HttpPost]
     [Route("register")]
+    [SwaggerOperation(OperationId = "register")]
     public async Task register(RegisterDto input)
     {
         IdentityResult identityResult = await userManager.CreateAsync(new AppUser(input.firstName, input.lastName, input.email, input.username), input.password);
@@ -41,6 +43,7 @@ public class AuthController
     }
 
     [HttpPost]
+    [SwaggerOperation(OperationId = "login")]
     public async Task<string> login(LoginDto input)
     {
         AppUser user = await userService.findByUsername(input.username);

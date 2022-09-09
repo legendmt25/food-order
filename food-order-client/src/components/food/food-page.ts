@@ -17,7 +17,7 @@ export class FoodPageComponent implements OnInit {
     quantity: 1,
     accessories: this.formBuilder.array([]),
     size: FoodSize.Small,
-  } as FoodCartItem);
+  });
 
   get price() {
     const temp =
@@ -53,11 +53,12 @@ export class FoodPageComponent implements OnInit {
 
   handleSubmit() {
     this.shoppingCartService
-      .apiShoppingCartAddItemPost({
+      .addItem({
         body: {
           size: this.form.value.size,
           foodId: this.form.value.id,
           quantity: this.form.value.quantity,
+          accessories: this.form.value.accessories as FoodAccessory[],
         },
       })
       .subscribe({
@@ -87,7 +88,7 @@ export class FoodPageComponent implements OnInit {
   }
 
   getFoodEntry(id: number) {
-    return this.foodService.apiFoodIdGet$Json({ id }).subscribe({
+    return this.foodService.getFoodEntry$Json({ id }).subscribe({
       next: (response) => (this.food = response),
       error: (error) => console.log(error),
     });

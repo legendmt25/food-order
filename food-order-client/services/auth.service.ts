@@ -15,7 +15,7 @@ export class CustomAuthService extends AuthService {
   }
 
   login(body: LoginDto) {
-    return this.authPost$Json({ body }).pipe(
+    return this.login$Json({ body }).pipe(
       map((value) => {
         localStorage.setItem('jwttoken', value);
         this.jwttoken.next(value);
@@ -25,10 +25,6 @@ export class CustomAuthService extends AuthService {
 
   init() {
     this.jwttoken.next(localStorage.getItem('jwttoken'));
-  }
-
-  register(body: RegisterDto) {
-    return this.authRegisterPost({ body });
   }
 
   logout() {

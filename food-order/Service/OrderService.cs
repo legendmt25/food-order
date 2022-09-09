@@ -60,6 +60,10 @@ public class OrderService
         return html.ToString();
     }
 
+    public async Task<ICollection<Order>> findByUsername(string username) {
+        return await orderRepository.findByUsername(username);
+    }
+
     public async Task makeOrder(string username)
     {
         ShoppingCart cart = await shoppingCartService.findByUsername(username);

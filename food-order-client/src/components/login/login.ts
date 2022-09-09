@@ -8,6 +8,8 @@ import { AuthService } from 'services';
   templateUrl: './login.html',
 })
 export class LoginComponent {
+  inputClass =
+    'outline-none border rounded p-1 px-2 shadow-sm hover:border-zinc-300 focus:border-zinc-300 transition-all duration-200';
   loginData: LoginDto = { username: '', password: '' };
   constructor(private authService: AuthService, private router: Router) {}
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -10,9 +11,10 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220909103537_AddedOrderCreatedAt")]
+    partial class AddedOrderCreatedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
@@ -248,9 +250,6 @@ namespace Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("FoodCartItemid")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("Foodid")
                         .HasColumnType("INTEGER");
 
@@ -261,8 +260,6 @@ namespace Repository.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
-
-                    b.HasIndex("FoodCartItemid");
 
                     b.HasIndex("Foodid");
 
@@ -431,10 +428,6 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Models.FoodAccessory", b =>
                 {
-                    b.HasOne("Models.FoodCartItem", null)
-                        .WithMany("accessories")
-                        .HasForeignKey("FoodCartItemid");
-
                     b.HasOne("Models.Food", null)
                         .WithMany("accessories")
                         .HasForeignKey("Foodid");
@@ -491,11 +484,6 @@ namespace Repository.Migrations
             modelBuilder.Entity("Models.FoodCartEntry", b =>
                 {
                     b.Navigation("items");
-                });
-
-            modelBuilder.Entity("Models.FoodCartItem", b =>
-                {
-                    b.Navigation("accessories");
                 });
 #pragma warning restore 612, 618
         }

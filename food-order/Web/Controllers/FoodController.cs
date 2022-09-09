@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Service;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Web.Controllers;
 
@@ -17,18 +18,21 @@ public class FoodController : ControllerBase
     }
 
     [HttpGet]
+    [SwaggerOperation(OperationId = "getFoodEntries")]
     public async Task<IEnumerable<Food>> foods()
     {
         return await foodService.findAll();
     }
 
     [HttpGet("{id}")]
+    [SwaggerOperation(OperationId = "getFoodEntry")]
     public async Task<Food> food(int id)
     {
         return await foodService.findById(id);
     }
 
     [HttpPost]
+    [SwaggerOperation(OperationId = "saveFoodEntry")]
     public async Task<Food> save([FromForm] FoodDto food)
     {
         Console.WriteLine(food.accessories.Count);
@@ -40,12 +44,14 @@ public class FoodController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [SwaggerOperation(OperationId = "editFoodEntry")]
     public async Task<Food> edit(Food food, int id)
     {
         return await foodService.edit(food, id);
     }
 
     [HttpDelete("{id}")]
+    [SwaggerOperation(OperationId = "deleteFoodEntry")]
     public async Task delete(int id)
     {
         await foodService.deleteById(id);

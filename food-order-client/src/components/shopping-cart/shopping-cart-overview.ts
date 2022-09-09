@@ -8,7 +8,7 @@ import { ShoppingCartService } from 'services';
 })
 export class ShoppingCartOverviewComponent implements OnInit {
   cart: ShoppingCart = {};
-  constructor(private shoppingCartService: ShoppingCartService) {}
+  constructor(public shoppingCartService: ShoppingCartService) {}
 
   ngOnInit(): void {
     this.getShoppingCartEntry();
@@ -18,7 +18,7 @@ export class ShoppingCartOverviewComponent implements OnInit {
     if (!id) {
       return;
     }
-    this.shoppingCartService.apiShoppingCartRemoveItemIdGet({ id }).subscribe({
+    this.shoppingCartService.removeItem({ id }).subscribe({
       next: () => {
         if (!this.cart.foodCartEntry) {
           return;
@@ -31,7 +31,7 @@ export class ShoppingCartOverviewComponent implements OnInit {
   }
 
   getShoppingCartEntry() {
-    this.shoppingCartService.apiShoppingCartGet$Json().subscribe({
+    this.shoppingCartService.getShoppingCart$Json().subscribe({
       next: (cart) => {
         this.cart = cart;
       },

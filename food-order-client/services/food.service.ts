@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class CustomFoodService extends FoodService {
   filterByCategory(category: FoodCategory) {
-    return this.apiFoodGet$Json().pipe(
+    return this.getFoodEntries$Json().pipe(
       map((entries) => entries.filter((entry) => entry.category === category))
     );
   }

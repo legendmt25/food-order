@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using Models;
 using Service;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Web.Controllers;
 
@@ -19,6 +19,7 @@ public class ShoppingCartController : ControllerBase
     }
 
     [HttpGet]
+    [SwaggerOperation(OperationId = "getShoppingCart")]
     public async Task<ShoppingCart> shoppingCart()
     {
         if (User.Identity == null)
@@ -30,6 +31,7 @@ public class ShoppingCartController : ControllerBase
 
     [HttpPost]
     [Route("add-item")]
+    [SwaggerOperation(OperationId = "addItem")]
     public async Task addItem(FoodAddItemDto foodAddItemDto)
     {
         if (User.Identity == null)
@@ -41,6 +43,7 @@ public class ShoppingCartController : ControllerBase
 
     [HttpGet]
     [Route("remove-item/{id}")]
+    [SwaggerOperation(OperationId = "removeItem")]
     public async Task removeItem([FromRoute] int id)
     {
         if (User.Identity == null)

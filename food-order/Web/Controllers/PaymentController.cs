@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Web.Controllers;
 
@@ -16,7 +17,9 @@ public class PaymentController
 
     [HttpGet]
     [Route("token")]
-    public Task<string> generateToken() {
+    [SwaggerOperation(OperationId = "getToken")]
+    public Task<string> generateToken()
+    {
         return paymentService.generateToken();
     }
 }

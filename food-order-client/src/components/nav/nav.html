@@ -1,7 +1,11 @@
-<nav class="flex justify-between items-center px-3 py-2 bg-zinc-200 h-20 shadow-sm">
+<nav
+  class="flex justify-between items-center px-3 py-2 bg-zinc-200 h-20 shadow-sm"
+>
   <div class="flex gap-3">
     <a routerLink="/food/pizza" [class]="linkClass" class="border">Pizza</a>
-    <a routerLink="/food/sandwich" [class]="linkClass" class="border">Sandwich</a>
+    <a routerLink="/food/sandwich" [class]="linkClass" class="border"
+      >Sandwich</a
+    >
     <a routerLink="/food/drink" [class]="linkClass" class="border">Drink</a>
   </div>
   <div class="flex gap-1 flex-col group self-start items-end">
@@ -21,9 +25,8 @@
       *ngIf="isAuthenticated"
       class="flex-col shadow items-center gap-3 z-50 group-hover:shadow-lg group-hover:border-zinc-400 hidden rounded-xl group-hover:flex p-4 border"
     >
-      <a routerLink="/cart" [class]="linkClass" class="border-b"
-        >Cart</a
-      >
+      <a routerLink="/my-orders" [class]="linkClass" class="border-b">My orders</a>
+      <a routerLink="/cart" [class]="linkClass" class="border-b">Cart</a>
       <a routerLink="/settings" [class]="linkClass" class="border-b"
         >Settings</a
       >
