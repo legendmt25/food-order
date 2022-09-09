@@ -61,14 +61,14 @@ public class OrderService
             {
                 sizePriceFactor = 2;
             }
-            else if (item.size == FoodSize.MIDDLE)
+            else if (item.size == FoodSize.BIG)
             {
                 sizePriceFactor = 3;
             }
 
             html.Append($"<tr>")
-                .Append($"<td>{item.food.id}</td>")
-                .Append($"<td>${item.food.category}</td>")
+                .Append($"<td>{item.food.name}</td>")
+                .Append($"<td>{item.food.category}</td>")
                 .Append($"<td>{item.quantity}</td>")
                 .Append($"<td>{sizePriceFactor * item.quantity * (item.food.price + item.accessories.Sum(accessory => accessory.price))}</td>")
                 .Append($"</tr>");
