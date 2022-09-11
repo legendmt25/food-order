@@ -1,14 +1,16 @@
 <table class="table-fixed border-collapse border w-full">
   <thead>
     <tr>
-        <th class="border p-3 w-1/4">Id</th>
+        <th class="border p-3 w-1/5">Id</th>
         <th class="border p-3">Created</th>
+        <th class="border p-3 w-1/5">Info</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of items">
-      <td class="border p-3">{{item.id}}</td>
+      <td class="border p-3 text-center">{{item.id}}</td>
       <td class="border p-3">{{item.createdAt}}</td>
+      <td class="border p-3 text-center"><button class="text-blue-400 py-1 px-2 border-b border-b-blue-300">Click</button></td>
     </tr>
   </tbody>
 </table>

@@ -11,12 +11,14 @@ export class FoodOverviewComponent {
   foods: Food[] = [];
   filteredFoods: Food[] = [];
   isLoading: boolean = false;
+  type: string = '';
 
   constructor(private foodService: FoodService, route: ActivatedRoute) {
     route.params.subscribe({
       next: (params) => {
         this.isLoading = true;
-        const type = params['type'];
+        const type: string = params['type'];
+        this.type = type[0].toUpperCase() + type.substring(1).toLowerCase();
         this.getFoodEntries(type);
       },
     });

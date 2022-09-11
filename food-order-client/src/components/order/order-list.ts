@@ -6,6 +6,5 @@ import { Order } from 'generated/models';
   templateUrl: './order-list.html',
 })
 export class OrderListComponent {
-    @Input('items') items: Order[] = [];
-    
+  @Input('items') items: Order[] = [];
 }
