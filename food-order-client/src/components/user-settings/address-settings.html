@@ -1,0 +1,144 @@
+<table class="border-collapse w-full p-2">
+  <thead>
+    <tr>
+      <th class="border p-3">City</th>
+      <th class="border p-3">Municipality</th>
+      <th class="border p-3">Address</th>
+      <th class="border p-3 w-1/4 text-center" colspan="2">Controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let address of addresses">
+      <ng-container *ngIf="id !== address.id">
+        <td class="border p-3">{{address.city}}</td>
+        <td class="border p-3">{{address.municipality}}</td>
+        <td class="border p-3">{{address.address}}</td>
+        <td class="border p-3 w-[12.5%] text-center">
+          <button
+            (click)="handleRemoveAddress(address.id)"
+            class="border-b p-2 text-blue-400 border-b-blue-300 hover:text-blue-600 hover:border-b-blue-400"
+          >
+            Remove
+          </button>
+        </td>
+        <td class="border p-3 w-[12.5%] text-center">
+          <button
+            (click)="handleEditClick(address.id)"
+            class="border-b p-2 text-blue-400 border-b-blue-300 hover:text-blue-600 hover:border-b-blue-400"
+          >
+            Edit
+          </button>
+        </td>
+      </ng-container>
+      <ng-container *ngIf="id === address.id">
+        <td class="border p-3">
+          <input
+            [(ngModel)]="form.municipality"
+            form="user-address-form"
+            name="municipality"
+            type="text"
+            class="border rounded outline-none w-full p-1 hover:border-zinc-400 focus:border-zinc-400 focus:shadow-sm"
+          />
+        </td>
+        <td class="border p-3">
+          <input
+            [(ngModel)]="form.city"
+            form="user-address-form"
+            name="city"
+            type="text"
+            class="border rounded outline-none w-full p-1 hover:border-zinc-400 focus:border-zinc-400 focus:shadow-sm"
+          />
+        </td>
+        <td class="border p-3">
+          <input
+            [(ngModel)]="form.address"
+            form="user-address-form"
+            type="text"
+            name="address"
+            class="border rounded outline-none w-full p-1 hover:border-zinc-400 focus:border-zinc-400 focus:shadow-sm"
+          />
+        </td>
+        <td class="border p-3 text-center w-[12.5%]">
+          <button
+            form="user-address-form"
+            type="submit"
+            class="border px-10 py-1 rounded hover:border-zinc-400 hover:shadow-sm active:shadow"
+          >
+            Edit
+          </button>
+        </td>
+        <td class="border p-3 text-center w-[12.5%]">
+          <button
+            (click)="handleCancelClick()"
+            class="border px-10 py-1 rounded hover:border-zinc-400 hover:shadow-sm active:shadow"
+          >
+            Cancel
+          </button>
+        </td>
+      </ng-container>
+    </tr>
+
+    <tr *ngIf="!showForm">
+      <td colspan="3" class="border p-3"></td>
+      <td class="border p-3 text-center" colspan="2">
+        <button
+          class="border px-10 py-1 rounded hover:border-zinc-400 hover:shadow-sm active:shadow"
+          (click)="handleSaveClick()"
+        >
+          Add
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="showForm && id === null">
+      <td class="border p-3">
+        <input
+          [(ngModel)]="form.municipality"
+          form="user-address-form"
+          name="municipality"
+          type="text"
+          class="border rounded outline-none w-full p-1 hover:border-zinc-400 focus:border-zinc-400 focus:shadow-sm"
+        />
+      </td>
+      <td class="border p-3">
+        <input
+          [(ngModel)]="form.city"
+          form="user-address-form"
+          name="city"
+          type="text"
+          class="border rounded outline-none w-full p-1 hover:border-zinc-400 focus:border-zinc-400 focus:shadow-sm"
+        />
+      </td>
+      <td class="border p-3">
+        <input
+          [(ngModel)]="form.address"
+          form="user-address-form"
+          type="text"
+          name="address"
+          class="border rounded outline-none w-full p-1 hover:border-zinc-400 focus:border-zinc-400 focus:shadow-sm"
+        />
+      </td>
+      <td class="border p-3 text-center w-[12.5%]">
+        <button
+          form="user-address-form"
+          type="submit"
+          class="border px-10 py-1 rounded hover:border-zinc-400 hover:shadow-sm active:shadow"
+        >
+          Save
+        </button>
+      </td>
+      <td class="border p-3 text-center w-[12.5%]">
+        <button
+          (click)="handleCancelClick()"
+          class="border px-10 py-1 rounded hover:border-zinc-400 hover:shadow-sm active:shadow"
+        >
+          Cancel
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<form
+  id="user-address-form"
+  #addressForm="ngForm"
+  (ngSubmit)="handleSubmit()"
+></form>

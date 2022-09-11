@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -10,9 +11,10 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220911194702_CreatedUserAddress")]
+    partial class CreatedUserAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
@@ -330,9 +332,6 @@ namespace Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("addressid")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("TEXT");
 
@@ -343,8 +342,6 @@ namespace Repository.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
-
-                    b.HasIndex("addressid");
 
                     b.HasIndex("foodOrderEntryid");
 
@@ -485,10 +482,6 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Models.Order", b =>
                 {
-                    b.HasOne("Models.UserAddress", "address")
-                        .WithMany()
-                        .HasForeignKey("addressid");
-
                     b.HasOne("Models.FoodCartEntry", "foodOrderEntry")
                         .WithMany()
                         .HasForeignKey("foodOrderEntryid");
@@ -496,8 +489,6 @@ namespace Repository.Migrations
                     b.HasOne("Models.AppUser", "user")
                         .WithMany()
                         .HasForeignKey("userId");
-
-                    b.Navigation("address");
 
                     b.Navigation("foodOrderEntry");
 

@@ -18,6 +18,8 @@ import { OrderOverviewComponent } from 'src/components/order/order-overview';
 import { OrderListComponent } from 'src/components/order/order-list';
 import { SpinnerComponent } from 'src/components/spinner/spinner';
 import { MakeOrderComponent } from 'src/components/order/make-order';
+import { UserSettingsComponent } from 'src/components/user-settings/user-settings';
+import { AddressSettingsComponent } from 'src/components/user-settings/address-settings';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -39,6 +41,8 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     OrderListComponent,
     SpinnerComponent,
     MakeOrderComponent,
+    UserSettingsComponent,
+    AddressSettingsComponent,
   ],
   imports: [
     BrowserModule,

@@ -107,6 +107,7 @@ builder.Services.AddTransient<FoodRepository>();
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<ShoppingCartRepository>();
 builder.Services.AddTransient<OrderRepository>();
+builder.Services.AddTransient<UserAddressRepository>();
 
 builder.Services.AddScoped<FoodService>();
 builder.Services.AddScoped<UserService>();
@@ -115,6 +116,7 @@ builder.Services.AddScoped<ShoppingCartService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<MailService>();
 builder.Services.AddScoped<PaymentService>();
+builder.Services.AddScoped<UserAddressService>();
 
 var app = builder.Build();
 

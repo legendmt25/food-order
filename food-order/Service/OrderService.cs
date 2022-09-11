@@ -11,6 +11,7 @@ public class OrderService
     private readonly UserService userService;
     private readonly MailService mailService;
 
+
     public OrderService(ShoppingCartService shoppingCartService, UserService userService, OrderRepository orderRepository, ShoppingCartRepository shoppingCartRepository, MailService mailService)
     {
         this.shoppingCartService = shoppingCartService;
@@ -92,11 +93,11 @@ public class OrderService
         return await orderRepository.findByUsername(username);
     }
 
-    public async Task makeOrder(string username)
+    public async Task makeOrder(string username, UserAddress address)
     {
         ShoppingCart cart = await shoppingCartService.findByUsername(username);
         AppUser user = await userService.findByUsername(username);
-        Order order = new Order(cart.foodCartEntry, user);
+        Order order = new Order(cart.foodCartEntry, user, address);
         Order saved = await orderRepository.save(order);
         await mailService.send(user.Email, "Food order ready", generateHtml(saved));
         await shoppingCartRepository.delete(cart.id.Value);

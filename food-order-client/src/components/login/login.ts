@@ -9,7 +9,7 @@ import { AuthService } from 'services';
 })
 export class LoginComponent {
   inputClass =
-    'outline-none border rounded p-1 px-2 shadow-sm hover:border-zinc-300 focus:border-zinc-300 transition-all duration-200';
+    'outline-none border rounded p-1 px-2 shadow-sm hover:border-zinc-300 focus:border-zinc-300 transition-all duration-200 w-full';
   loginData: LoginDto = { username: '', password: '' };
   constructor(private authService: AuthService, private router: Router) {}
 

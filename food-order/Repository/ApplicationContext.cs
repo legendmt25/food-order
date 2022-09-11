@@ -11,6 +11,7 @@ public class ApplicationContext : IdentityDbContext<AppUser, IdentityRole<int>, 
     public DbSet<AppUser> users { get; set; }
     public DbSet<Order> orders { get; set; }
     public DbSet<ShoppingCart> shoppingCarts { get; set; }
+    public DbSet<UserAddress> userAddresses { get; set; }
 
     public ApplicationContext(DbContextOptions options) : base(options) { }
 }

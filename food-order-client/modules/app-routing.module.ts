@@ -8,6 +8,8 @@ import { MakeOrderComponent } from 'src/components/order/make-order';
 import { OrderOverviewComponent } from 'src/components/order/order-overview';
 import { RegisterComponent } from 'src/components/register/register';
 import { ShoppingCartModalComponent } from 'src/components/shopping-cart/shopping-cart-modal';
+import { AddressSettingsComponent } from 'src/components/user-settings/address-settings';
+import { UserSettingsComponent } from 'src/components/user-settings/user-settings';
 
 const routes: Routes = [
   {
@@ -38,6 +40,17 @@ const routes: Routes = [
     component: MakeOrderComponent,
     path: 'make-order',
   },
+  {
+    component: UserSettingsComponent,
+    path: 'settings',
+    children: [
+      {
+        component: AddressSettingsComponent,
+        path: 'address',
+      },
+    ],
+  },
+
   {
     component: ErrorComponent,
     path: '*',
