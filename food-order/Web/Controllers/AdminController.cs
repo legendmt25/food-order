@@ -14,6 +14,7 @@ namespace Web.Controllers;
 [EnableCors]
 [Route("api/[controller]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{UserRole.ADMIN}")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class AdminController : ControllerBase
 {
     private readonly UserManager<AppUser> userManager;
@@ -78,6 +79,49 @@ public class AdminController : ControllerBase
                 }
             }
             await userManager.AddToRolesAsync(user, roles);
+        }
+    }
+
+
+    [HttpPost]
+    [Route("import-foods")]
+    [SwaggerOperation(OperationId = "importFoods")]
+    public async Task importFoods(IFormFile file)
+    {
+        ExcelFile workbook = ExcelFile.Load(file.OpenReadStream());
+        ExcelWorksheet worksheet = workbook.Worksheets.Where(worksheet => worksheet.Name.Equals("foods")).First();
+        foreach (ExcelRow row in worksheet.Rows)
+        {
+            try
+            {
+                ExcelPicture picture = worksheet.Pictures.FirstOrDefault(picture => picture.Metadata.Name.Equals($"Food {row.Index + 1}"));
+                ImageData image = new ImageData(picture.PictureStream.ToArray(), $"image/{picture.PictureFormat.ToString().ToLower()}");
+                string name = row.Cells[0].Value.ToString();
+                string description = row.Cells[1].Value.ToString();
+                FoodCategory category;
+                Enum.TryParse<FoodCategory>(row.Cells[2].Value.ToString(), out category);
+                decimal price = Convert.ToDecimal(row.Cells[3].Value.ToString());
+
+                List<ExcelCell> accessoryCells = row.Cells.ToList()
+                    .GetRange(4, row.Cells.LastColumnIndex - 4)
+                    .TakeWhile((cell) => cell.Value != null)
+                    .ToList();
+
+
+                List<FoodAccessory> accessories = new List<FoodAccessory>();
+                for (int i = 0; i + 1 < accessoryCells.Count(); i += 2)
+                {
+                    string accessoryName = accessoryCells[i].Value.ToString();
+                    decimal accessoryPrice = Convert.ToDecimal(accessoryCells[i + 1].Value.ToString());
+                    accessories.Add(new FoodAccessory(accessoryName, accessoryPrice));
+                }
+                Food food = new Food(name, description, category, accessories, price, image);
+                await foodService.save(food);
+            }
+            catch
+            {
+                break;
+            }
         }
     }
 

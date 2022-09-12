@@ -1,0 +1,2 @@
+https --verify=no post :5001/auth username=admin password=admin
+https -f --verify=no post :5001/api/admin/import-foods file@data.xlsx Authorization:"Bearer token here"
