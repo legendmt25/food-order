@@ -36,6 +36,15 @@ export class FoodPageComponent implements OnInit {
     );
   }
 
+  getAccessoryPrice(id: number) {
+    const temp =
+      1 +
+      Number(this.form.value.size === FoodSize.Middle) +
+      2 * Number(this.form.value.size === FoodSize.Big);
+    const accessories = this.food.accessories ?? [];
+    return this.form.value.quantity * temp * (accessories[id].price ?? 0);
+  }
+
   constructor(
     private shoppingCartService: ShoppingCartService,
     private foodService: FoodService,

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -33,6 +35,7 @@ public class FoodController : ControllerBase
 
     [HttpPost]
     [SwaggerOperation(OperationId = "saveFoodEntry")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{UserRole.ADMIN}")]
     public async Task<Food> save([FromForm] FoodDto food)
     {
         Console.WriteLine(food.accessories.Count);
@@ -44,6 +47,7 @@ public class FoodController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{UserRole.ADMIN}")]
     [SwaggerOperation(OperationId = "editFoodEntry")]
     public async Task<Food> edit(Food food, int id)
     {
@@ -51,6 +55,7 @@ public class FoodController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{UserRole.ADMIN}")]
     [SwaggerOperation(OperationId = "deleteFoodEntry")]
     public async Task delete(int id)
     {

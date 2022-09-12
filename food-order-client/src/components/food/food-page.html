@@ -15,7 +15,7 @@
       (ngSubmit)="handleSubmit()"
     >
       <div class="text-xl font-bold">{{price}}$</div>
-      <div class="w-fit" *ngFor="let accessory of food.accessories">
+      <div class="w-fit" *ngFor="let accessory of food.accessories; index as i">
         <input
           type="checkbox"
           name="accessories"
@@ -23,7 +23,7 @@
           (change)="handleAccessoriesChange($event)"
         />
         <label class="ml-2" for="{{accessory.id}}">
-          {{accessory.name}} ( {{accessory.price}}$ )
+          {{accessory.name}} ( {{getAccessoryPrice(i)}}$ )
         </label>
       </div>
       <div>

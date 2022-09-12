@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService, PaymentService, UserAddressService } from 'services';
-import * as braintree from 'braintree-web';
 import { FormControl } from '@angular/forms';
+import * as braintree from 'braintree-web';
 import { UserAddress } from 'generated/models';
+import { OrderService, UserAddressService } from 'services';
 
 @Component({
   selector: 'make-order',
@@ -11,22 +11,17 @@ import { UserAddress } from 'generated/models';
 export class MakeOrderComponent implements OnInit {
   inputClass =
     'outline-none border rounded p-1 px-2 shadow-sm hover:border-zinc-300 focus:border-zinc-300 transition-all duration-200';
-  token: string = '';
-  hostedFields: braintree.HostedFields = {} as braintree.HostedFields;
   addressFormControl = new FormControl<number>(0);
   addressId?: number = undefined;
   addresses: UserAddress[] = [];
+  currentStep: number = 1;
 
   constructor(
     private orderService: OrderService,
-    private paymentService: PaymentService,
     public userAddressService: UserAddressService
   ) {}
 
   ngOnInit(): void {
-    this.generateToken().add(() => {
-      this.createBraintreeUI();
-    });
     this.getAddressEntries();
     this.addressFormControl.valueChanges.subscribe({
       next: (addressId) => {
@@ -46,73 +41,30 @@ export class MakeOrderComponent implements OnInit {
     });
   }
 
-  createBraintreeUI() {
-    braintree.client.create({ authorization: this.token }).then((client) => {
-      braintree.hostedFields
-        .create({
-          client,
-          styles: {
-            form: {
-              width: '50%',
-            },
-            input: {
-              'font-size': '16px',
-              height: 'auto',
-              width: '50%',
-            },
-          },
-          fields: {
-            number: {
-              selector: '#card-number',
-              placeholder: '1111 1111 1111 1111',
-            },
-            cvv: {
-              selector: '#cvv',
-              placeholder: '111',
-            },
-            expirationDate: {
-              selector: '#expiration-date',
-              placeholder: 'MM/YY',
-            },
-            cardholderName: {
-              selector: '#cardholder-name',
-              placeholder: 'Full name',
-            },
-          },
-        })
-        .then((hostedFields) => {
-          this.hostedFields = hostedFields;
-        });
-    });
-  }
-
-  generateToken() {
-    return this.paymentService.getToken$Json().subscribe({
-      next: (token) => {
-        this.token = token;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  handleMakeOrder() {
+  handleMakeOrder(payload: braintree.HostedFieldsTokenizePayload) {
     if (!this.addressId) {
       return;
     }
-    this.hostedFields.tokenize().then((payload) => {
-      this.orderService
-        .makeOrder({
-          body: { nonce: payload.nonce },
-          addressId: this.addressId,
-        })
-        .subscribe({
-          next: () => {},
-          error: (error) => {
-            console.log(error);
-          },
-        });
-    });
+    this.orderService
+      .makeOrder({
+        body: { nonce: payload?.nonce },
+        addressId: this.addressId,
+      })
+      .subscribe({
+        next: () => {},
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+
+  nextStep() {
+    if (!this.addressId) {
+      return;
+    }
+    this.currentStep++;
+  }
+  beforeStep() {
+    this.currentStep--;
   }
 }

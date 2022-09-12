@@ -1,0 +1,63 @@
+<div class="flex">
+  <div class="w-full">
+    <form (ngSubmit)="tokenize()" class="flex flex-col gap-2">
+      <div class="flex flex-col gap-1">
+        <label for="card-number">Card number</label>
+        <div id="card-number" [class]="inputClass"></div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="cvv">CVV</label>
+        <div id="cvv" type="text" [class]="inputClass"></div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="expiration-date">Expiration date</label>
+        <div id="expiration-date" [class]="inputClass"></div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="cardholder-name">Cardholder name</label>
+        <div id="cardholder-name" [class]="inputClass"></div>
+      </div>
+      <div>
+        <button
+          (click)="beforeStep.emit()"
+          type="button"
+          class="w-fit p-2 px-5 border rounded shadow-sm active:shadow focus:shadow hover:border-zinc-300 focus:border-zinc-300"
+        >
+          Go back
+        </button>
+        <button
+          type="submit"
+          class="w-fit p-2 px-5 border rounded shadow-sm active:shadow focus:shadow hover:border-zinc-300 focus:border-zinc-300"
+        >
+          Finish
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="w-full flex flex-col gap-2 p-2">
+    <div class="flex gap-5">
+      <img
+        class="w-12 cursor-pointer"
+        src="https://upload.wikimedia.org/wikipedia/commons/1/16/Former_Visa_%28company%29_logo.svg"
+        alt="Visa card"
+      />
+      <img
+        class="w-12 cursor-pointer"
+        src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+        alt="Master card"
+      />
+      <img
+        class="w-12 cursor-pointer"
+        src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+        alt="Paypal"
+      />
+    </div>
+    <div class="flex items-center justify-center p-10 shadow-sm">
+      <img
+        class="w-32"
+        src="https://upload.wikimedia.org/wikipedia/commons/1/16/Former_Visa_%28company%29_logo.svg"
+        alt="Visa cart"
+      />
+    </div>
+  </div>
+</div>

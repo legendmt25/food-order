@@ -20,6 +20,7 @@ import { SpinnerComponent } from 'src/components/spinner/spinner';
 import { MakeOrderComponent } from 'src/components/order/make-order';
 import { UserSettingsComponent } from 'src/components/user-settings/user-settings';
 import { AddressSettingsComponent } from 'src/components/user-settings/address-settings';
+import { PaymentComponent } from 'src/components/payment/payment';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -43,6 +44,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     MakeOrderComponent,
     UserSettingsComponent,
     AddressSettingsComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,
